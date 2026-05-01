@@ -16,10 +16,10 @@ bin/
 # macOS
 .DS_Store
 
-# binary
-github-mcp-server
-mcpcurl
-e2e.test
+# binary (root only — avoid matching cmd/github-mcp-server/ source dir)
+/github-mcp-server
+/mcpcurl
+/e2e.test
 
 .history
 conformance-report/
