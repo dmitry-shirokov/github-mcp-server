@@ -1,0 +1,12 @@
+.git
+.idea
+.vscode
+.history
+dist
+vendor
+node_modules
+ui/node_modules
+ui/dist
+e2e.test
+__debug_bin*
+.DS_Store
