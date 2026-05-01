@@ -3,6 +3,6 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "/server/github-mcp-server http --port=$PORT"
+startCommand = "/server/github-mcp-server http"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5
