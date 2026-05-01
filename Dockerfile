@@ -14,7 +14,7 @@ ARG VERSION="dev"
 WORKDIR /build
 
 # Install git
-RUN --mount=type=cache,target=/var/cache/apk \
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
     apk add git
 
 # Copy source code (including ui_dist placeholder)
@@ -24,8 +24,8 @@ COPY . .
 COPY --from=ui-build /app/pkg/github/ui_dist/* ./pkg/github/ui_dist/
 
 # Build the server
-RUN --mount=type=cache,target=/go/pkg/mod \
-    --mount=type=cache,target=/root/.cache/go-build \
+RUN --mount=type=cache,id=go-mod-cache,target=/go/pkg/mod \
+    --mount=type=cache,id=go-build-cache,target=/root/.cache/go-build \
     CGO_ENABLED=0 go build -ldflags="-s -w -X main.version=${VERSION} -X main.commit=$(git rev-parse HEAD) -X main.date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
     -o /bin/github-mcp-server ./cmd/github-mcp-server
 
