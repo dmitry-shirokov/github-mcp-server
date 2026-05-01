@@ -152,6 +152,18 @@ func (h *Handler) RegisterRoutes(r chi.Router) {
 	r.With(withToolset, withReadonly).Mount("/x/{toolset}/readonly", h)
 	r.With(withToolset, withInsiders).Mount("/x/{toolset}/insiders", h)
 	r.With(withToolset, withReadonly, withInsiders).Mount("/x/{toolset}/readonly/insiders", h)
+
+	// Per-instance routes — let clients use distinct URLs (e.g. /i/foo, /i/bar)
+	// to register multiple MCP servers in a single host while sharing one deploy.
+	// The {id} segment is opaque, never inspected by the server.
+	r.Mount("/i/{id}", h)
+	r.With(withReadonly).Mount("/i/{id}/readonly", h)
+	r.With(withInsiders).Mount("/i/{id}/insiders", h)
+	r.With(withReadonly, withInsiders).Mount("/i/{id}/readonly/insiders", h)
+	r.With(withToolset).Mount("/i/{id}/x/{toolset}", h)
+	r.With(withToolset, withReadonly).Mount("/i/{id}/x/{toolset}/readonly", h)
+	r.With(withToolset, withInsiders).Mount("/i/{id}/x/{toolset}/insiders", h)
+	r.With(withToolset, withReadonly, withInsiders).Mount("/i/{id}/x/{toolset}/readonly/insiders", h)
 }
 
 // withReadonly is middleware that sets readonly mode in the request context
